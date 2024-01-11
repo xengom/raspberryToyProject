@@ -11,3 +11,7 @@ Toy Projects using raspberry pi 5
 * auto login available
 * auto location available
 * auto logout available
+
+### Revision
+* 240111 location recording feature
+* 240111 make id, pw, location info to parameter 
