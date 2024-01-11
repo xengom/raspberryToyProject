@@ -1,4 +1,17 @@
 const puppeteer = require('puppeteer-core');
+const holi = require("korean-business-day");
+
+const koreaTimeDiff = 9 * 60 * 60 * 1000;
+const korNow = new Date((new Date().getTime() + koreaTimeDiff));
+const isHoliday = holi.isHoliday(korNow);
+
+const USER_ID = process.argv[2];
+const USER_PASSWORD = process.argv[3];
+
+console.log(`
+  아이디 : ${USER_ID}
+  비밀번호 : ${USER_PASSWORD}
+`)
 
 class Puppet {
   browser = null;
@@ -33,21 +46,21 @@ class Puppet {
 }
 
 const logout = async () => {
-  /* user Info */
-  const USER_ID = 'D20211204';
-  const USER_PASSWORD = 'D20211204';
+  if (!isHoliday) {
+    const puppet = new Puppet();
+    puppet.url = `https://www.projectware.kr/A/In.aspx?__VIEWSTATE=%2FwEPDwUJNzkxODEyNzg4ZBgBBR5fX0NvbnRyb2xzUmVxdWlyZVBvc3RCYWNrS2V5X18WAQUDY1N2JaDUH6Uy7DU8dDdQuolw7udz%2Fvo%3D&__VIEWSTATEGENERATOR=6F4A89F0&__EVENTVALIDATION=%2FwEWBgKt8KuhBAKsouKWDwKzmcmVDALBmcmVDALGmdGVDAK52L%2FtDUNzlW9O9J7JFyMH0TGaXNhZmb7J&cid=dgrmsoft&uid=${USER_ID}&pwd=${USER_PASSWORD}&x=64&y=42`;
+    await puppet.setConfig();
+    await puppet.accessSite('login');
 
-  const puppet = new Puppet();
-  puppet.url = `https://www.projectware.kr/A/In.aspx?__VIEWSTATE=%2FwEPDwUJNzkxODEyNzg4ZBgBBR5fX0NvbnRyb2xzUmVxdWlyZVBvc3RCYWNrS2V5X18WAQUDY1N2JaDUH6Uy7DU8dDdQuolw7udz%2Fvo%3D&__VIEWSTATEGENERATOR=6F4A89F0&__EVENTVALIDATION=%2FwEWBgKt8KuhBAKsouKWDwKzmcmVDALBmcmVDALGmdGVDAK52L%2FtDUNzlW9O9J7JFyMH0TGaXNhZmb7J&cid=dgrmsoft&uid=${USER_ID}&pwd=${USER_PASSWORD}&x=64&y=42`;
-  console.log(puppet.url)
-  await puppet.setConfig();
-  await puppet.accessSite('login');
+    puppet.url = `https://www.projectware.kr/Site/Out.aspx`
+    console.log(`trying logout`)
+    await puppet.page.goto(puppet.url, { waitUntil: 'networkidle2' })
+    console.log(`success logout`)
 
-  puppet.url = `https://www.projectware.kr/Site/Out.aspx`
-  console.log(puppet.url)
-  await puppet.page.goto(puppet.url, { waitUntil: 'networkidle2' })
-
-  await puppet.closeBrowser();
+    await puppet.closeBrowser();
+  } else {
+    console.log('HAPPY HOLIDAY')
+  }
 }
 
 logout().then(() => {
