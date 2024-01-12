@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JOBS DONE!</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .message {
+      text-align: center;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f8f8f8;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body>
+  <div class="message">
+    <p>처리 완료했습니다.</p>
+  </div>
+  <script>
+    // 서버에서 "close" 메시지 수신 시 브라우저 닫기
+    fetch('/close')
+      .then(response => response.text())
+      .then(message => {
+        if (message === 'close') {
+          console.log('브라우저를 닫습니다.');
+          window.close(); // 브라우저 닫기
+        }
+      });
+  </script>
+</body>
+</html>
