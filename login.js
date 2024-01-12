@@ -38,13 +38,7 @@ const isHoliday = () => {
   return holi.isHoliday(new Date);
 }
 
-
-
-// const DATE_TODAY = 
-// const WORK_LOCATION = encodeURI(location)
-
-
-
+// puppeteer class
 class Puppet {
   browser = null;
   page = null;
