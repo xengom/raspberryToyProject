@@ -15,7 +15,13 @@ app.get('/login', async (req, res) => {
     req.query
   ).then(() => {
     console.log('login Success')
-    res.send('/close')
+    res.send(`
+      ID : ${req.query.id}<br>
+      PW : ${req.query.pw}<br>
+      출근위치 : ${req.query.loc}<br>
+      오 출 완<br>
+      오늘 하루도 화이팅
+    `)
   }).catch((err) => {
     console.log(err)
   })
@@ -28,7 +34,13 @@ app.get('/logout', (req, res) => {
     req.query
   ).then(() => {
     console.log('logout Success')
-    res.send(index.html)
+    res.send(`
+      ID : ${req.query.id}<br>
+      PW : ${req.query.pw}<br>
+      출근위치 : ${req.query.loc}<br>
+      오 퇴 완<br>
+      오늘 하루도 수고하셨습니다.
+    `)
   }).catch((err) => {
     console.log(err)
   })
