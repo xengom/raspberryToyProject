@@ -1,17 +1,22 @@
 # raspberryToyProject
 Toy Projects using raspberry pi 5
 
-## Work Recoder
+## 자동 출퇴근 기록스크립트
 ### Using
 * node.js
 * javaScript
 * puppeteer
 
-### features
-* auto login available
-* auto location available
-* auto logout available
+### Features
+* 자동 로그인
+* 자동 출근위치 기록
+* 자동 로그아웃
 
 ### Revision
-* 240111 location recording feature
-* 240111 make id, pw, location info to parameter 
+* 240111 위치기록기능 추가
+* 240111 계정정보, 출근위치 등 Parameter화
+* 240113 휴일 정보 추가 (![https://github.com/croquiscom/korean-business-day.git])
+
+### How to use
+서버에 올려서 ssh를 통해 `node "ID" "PW" "출근위치"` 로 실행
+
