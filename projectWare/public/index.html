@@ -1,43 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JOBS DONE!</title>
-  <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
 
-    .message {
-      text-align: center;
-      padding: 20px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      background-color: #f8f8f8;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-  </style>
+        .button-container {
+            text-align: center;
+        }
+
+        .work-button, .leave-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            margin: 5px;
+            color: #fff;
+            transition: background-color 0.3s ease;
+        }
+
+        .work-button {
+            background-color: #4caf50; /* Green */
+        }
+
+        .leave-button {
+            background-color: #f44336; /* Red */
+        }
+
+        .work-button:hover, .leave-button:hover {
+            background-color: #45a049; /* Darker Green */ 
+        }
+    </style>
+    <title>출근/퇴근 버튼</title>
 </head>
 <body>
-  <div class="message">
-    <p>처리 완료했습니다.</p>
-  </div>
-  <script>
-    // 서버에서 "close" 메시지 수신 시 브라우저 닫기
-    fetch('/close')
-      .then(response => response.text())
-      .then(message => {
-        if (message === 'close') {
-          console.log('브라우저를 닫습니다.');
-          window.close(); // 브라우저 닫기
+
+<div class="button-container">
+    <button class="work-button" onclick="confirmWork()">출근</button>
+    <button class="leave-button" onclick="confirmLeave()">퇴근</button>
+</div>
+
+<script>
+    function confirmWork() {
+      const confirmMessage = `
+        id : ${getCurrentUrlParams().id}
+        pw : ${getCurrentUrlParams().pw}
+
+        ${getCurrentUrlParams().loc} 으로 출근하시겠습니까?
+      `;
+        if (confirm(confirmMessage)) {
+            onWorkClick();
         }
-      });
-  </script>
+    }
+
+    function confirmLeave() {
+      const confirmMessage = `
+        id : ${getCurrentUrlParams().id}
+        pw : ${getCurrentUrlParams().pw}
+        
+        퇴근하시겠습니까?
+      `;
+        if (confirm('퇴근하시겠습니까?')) {
+            onLeaveClick();
+        }
+    }
+
+    function onWorkClick() {
+      serverCall('/login',getCurrentUrlParams())
+      alert('출근되었습니다.');
+    }
+
+    function onLeaveClick() {
+      serverCall('/logout',getCurrentUrlParams())
+      alert('퇴근되었습니다.');
+    }
+
+    function getCurrentUrlParams() {
+        const currentUrl = new URL(window.location.href);
+        const params = {};
+        currentUrl.searchParams.forEach((value, key) => {
+            params[key] = value;
+        });
+        return params;
+    }
+
+    function serverCall(url, query) {
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ query }),
+        })
+        .then(response => response.json())
+        // .then(data => {
+        //     alert(JSON.stringify(data));
+        // })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('서버에 요청 중 오류가 발생했습니다.');
+        });
+    }
+</script>
+
 </body>
 </html>

@@ -1,13 +1,19 @@
 const express = require('express');
 const login = require('./login');
 const logout = require('./logout');
+const bodyParser = require('body-parser');
 
 const app = express();
 const port = 8080;
 
-
 app.use(express.static('public'));
+app.use(bodyParser.json());
 
+app.get('/', async (req, res) => {
+  res.sendFile(__dirname + "/public/index.html")
+})
+
+// Iphone 단축어 유저용
 app.get('/login', async (req, res) => {
   console.log(new Date)
   console.log(req.query)
@@ -15,13 +21,7 @@ app.get('/login', async (req, res) => {
     req.query
   ).then(() => {
     console.log('login Success')
-    res.send(`
-      ID : ${req.query.id}<br>
-      PW : ${req.query.pw}<br>
-      출근위치 : ${req.query.loc}<br>
-      오 출 완<br>
-      오늘 하루도 화이팅
-    `)
+    res.sendFile(__dirname + "/public/result.html")
   }).catch((err) => {
     console.log(err)
   })
@@ -34,14 +34,39 @@ app.get('/logout', (req, res) => {
     req.query
   ).then(() => {
     console.log('logout Success')
-    res.send(`
-      ID : ${req.query.id}<br>
-      PW : ${req.query.pw}<br>
-      출근위치 : ${req.query.loc}<br>
-      오 퇴 완<br>
-      오늘 하루도 수고하셨습니다.
-    `)
+    res.sendFile(__dirname + "/public/result.html")
   }).catch((err) => {
+    console.log(err)
+  })
+})
+
+// web 유저용
+app.post('/login', (req, res) => {
+  login().login(
+    req.body.query
+  ).then(()=> {
+    console.log('===================')
+    console.log(req.body.query);
+    console.log(new Date)
+    console.log('login Success')
+    console.log('===================')
+    res.json(req.body.query)
+  }).catch((err)=>{
+    console.log(err)
+  })
+})
+
+app.post('/logout', (req, res) => {
+  logout().logout(
+    req.body.query
+  ).then(()=> {
+    console.log('===================')
+    console.log(req.body.query);
+    console.log(new Date)
+    console.log('logout Success')
+    console.log('===================')
+    res.json(req.body.query)
+  }).catch((err)=>{
     console.log(err)
   })
 })
