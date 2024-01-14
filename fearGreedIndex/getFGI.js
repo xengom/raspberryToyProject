@@ -23,23 +23,6 @@ async function getFearAndGreedIndex() {
     }
 }
 
-// getFearAndGreedIndex().then(result => {
-//     if (result !== null) {
-//         console.log(`Fear and Greed Score: ${result.score}`);
-//         console.log(`Fear and Greed Rating: ${result.rating}`);
-//         return { 
-//           score: result.score,
-//           rating: result.rating
-//         }
-//     } else {
-//         console.log('Fear and Greed Index could not be retrieved.');
-//         return null;
-//     }
-// }).catch(error => {
-//     console.error('Unexpected error:', error);
-//     return null;
-// });
-
 module.exports = {
   getFearAndGreedIndex
 }
