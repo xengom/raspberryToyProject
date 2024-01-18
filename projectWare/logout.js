@@ -1,4 +1,3 @@
-const common = require('./common');
 const puppet = require('./puppeteer');
 
 module.exports = () => {
