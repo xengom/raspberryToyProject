@@ -2,10 +2,10 @@
   "name": "projectware",
   "version": "1.0.0",
   "description": "automation of login-logout",
-  "main": "index.js",
+  "main": "pwServer.js",
   "scripts": {
     "test": "test",
-    "start": "node index.js"
+    "start": "node pwServer.js"
   },
   "repository": {
     "type": "git",
